@@ -1,7 +1,7 @@
 # MWR CyberSec Internship Portal - Security Assessment Report
 
 **Assessor:** Thando Mashele  
-**Assessment Dates:** June 15, 2026  
+**Assessment Date:** June 15, 2026  
 **Target Application:** `interns.mwrcybersec.loc`  
 **Methodology:** Grey-box penetration testing with authenticated intern access
 
