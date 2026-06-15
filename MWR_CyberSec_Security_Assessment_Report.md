@@ -1,7 +1,7 @@
 # MWR CyberSec Internship Portal - Security Assessment Report
 
 **Assessor:** Thando Mashele  
-**Assessment Dates:** June 12–15, 2026  
+**Assessment Dates:** June 15, 2026  
 **Target Application:** `interns.mwrcybersec.loc`  
 **Methodology:** Grey-box penetration testing with authenticated intern access
 
@@ -66,7 +66,7 @@ The profile API endpoint returns sensitive internal data in its JSON response th
 
 **Evidence:** `01_profile_api_response.png`
 
-**Impact:**
+**Business Impact:**
 
 Any authenticated intern can retrieve sensitive internal data not intended for client-side visibility. This includes flags, internal identifiers, and application metadata.
 
@@ -95,7 +95,7 @@ The assignment memo endpoint lacks proper authorization checks. An authenticated
 
 **Evidence:** `02_idor_memo_id1.png`, `03_idor_memo_id2.png`, `04_idor_memo_id3.png`
 
-**Impact:**
+**Business Impact:**
 
 - **Confidentiality breach:** Attackers can enumerate all assignment content and answers
 - **Assessment integrity compromised:** Correct answers are exposed, allowing cheating
@@ -140,7 +140,7 @@ The `email` field in the login endpoint is vulnerable to error-based SQL injecti
 
 **Evidence:** `06_sqli_quote_error.png` through `13_admin_hash_p2.png`
 
-**Impact:**
+**Business Impact:**
 
 Complete database compromise. An attacker can extract all data from every table, retrieve all user credentials for offline cracking, and access PII of 123+ registered users. This can be chained with admin endpoints for full application compromise.
 
@@ -166,7 +166,7 @@ The leaderboard endpoint returns the full rankings of all 121+ registered intern
 
 **Evidence:** `05_leaderboard_response.png`
 
-**Impact:** Low - internal metrics and display handles exposed. No PII or credentials leaked.
+**Business Impact:** Low - internal metrics and display handles exposed. No PII or credentials leaked.
 
 **Remediation:** Restrict leaderboard to top 10/25 only, or require user opt-in consent.
 
@@ -191,7 +191,7 @@ Full execution could not be confirmed because the profile locks after applicatio
 
 **Evidence:** `14_xss_patch_request.png`, `15_xss_nickname_stored.png`, `16_xss_profile_view.png`
 
-**Impact:** If triggered in admin context: session theft, admin actions, data exfiltration. Conditional on admin viewing compromised profile.
+**Business Impact:** If triggered in admin context: session theft, admin actions, data exfiltration. Conditional on admin viewing compromised profile.
 
 **Remediation:** Remove `dangerouslySetInnerHTML`. Use safe text rendering or DOMPurify. Implement Content Security Policy headers.
 
@@ -214,7 +214,7 @@ The registration endpoint returns different responses for existing vs. new email
 
 **Evidence:** `16_register_existing_email.png`, `17_register_success.png`
 
-**Impact:** User enumeration enables targeted attacks against known registered users.
+**Business Impact:** User enumeration enables targeted attacks against known registered users.
 
 **Remediation:** Return identical generic responses for both cases. Remove all debug data from production errors. Implement rate limiting.
 
