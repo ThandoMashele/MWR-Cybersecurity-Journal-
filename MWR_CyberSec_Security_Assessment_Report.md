@@ -1,4 +1,4 @@
-# MWR CyberSec Internship Portal — Security Assessment Report
+# MWR CyberSec Internship Portal - Security Assessment Report
 
 **Assessor:** Thando Mashele  
 **Assessment Dates:** June 12–15, 2026  
@@ -21,13 +21,13 @@ Immediate remediation of the SQL injection and IDOR vulnerabilities is strongly 
 
 ## Methodology
 
-Testing was conducted using **Burp Suite Community Edition** as an intercepting proxy, **Firefox** for browser-based testing, and manual HTTP request crafting via Burp Repeater. The assessment followed a grey-box approach — authenticated as a registered intern user — supplemented by unauthenticated testing on the login and registration endpoints.
+Testing was conducted using **Burp Suite Community Edition** as an intercepting proxy, **Firefox** for browser-based testing, and manual HTTP request crafting via Burp Repeater. The assessment followed a grey-box approach (authenticated as a registered intern user) supplemented by unauthenticated testing on the login and registration endpoints.
 
 The application's JavaScript bundle (`/assets/index-BZZ15g5T.js`) was analyzed for endpoint discovery, confirming admin routes and the use of React's `dangerouslySetInnerHTML` on leaderboard and admin applicant views.
 
 JWT token structure and signature validation were tested:
-- Algorithm downgrade to `"alg":"none"` — rejected with `422 INVALID_TOKEN`
-- Payload tampering (`sub` changed from `132` to `1` with original signature retained) — rejected with `422 INVALID_TOKEN`
+- Algorithm downgrade to `"alg":"none"` - rejected with `422 INVALID_TOKEN`
+- Payload tampering (`sub` changed from `132` to `1` with original signature retained) -  rejected with `422 INVALID_TOKEN`
 
 Both tests confirmed robust token validation.
 
@@ -89,9 +89,9 @@ The assignment memo endpoint lacks proper authorization checks. An authenticated
 **Reproduction Steps:**
 
 1. Authenticate with any valid intern JWT
-2. Send `GET /api/v1/assignments/1/memo` — observe full OWASP Top 10 quiz with correct answers
-3. Send `GET /api/v1/assignments/2/memo` — observe Secure Code Review quiz with another user's essay
-4. Send `GET /api/v1/assignments/3/memo` — observe Web App Pentesting quiz with another user's essay
+2. Send `GET /api/v1/assignments/1/memo` - observe full OWASP Top 10 quiz with correct answers
+3. Send `GET /api/v1/assignments/2/memo` - observe Secure Code Review quiz with another user's essay
+4. Send `GET /api/v1/assignments/3/memo` - observe Web App Pentesting quiz with another user's essay
 
 **Evidence:** `02_idor_memo_id1.png`, `03_idor_memo_id2.png`, `04_idor_memo_id3.png`
 
@@ -166,7 +166,7 @@ The leaderboard endpoint returns the full rankings of all 121+ registered intern
 
 **Evidence:** `05_leaderboard_response.png`
 
-**Impact:** Low — internal metrics and display handles exposed. No PII or credentials leaked.
+**Impact:** Low - internal metrics and display handles exposed. No PII or credentials leaked.
 
 **Remediation:** Restrict leaderboard to top 10/25 only, or require user opt-in consent.
 
@@ -225,11 +225,11 @@ The registration endpoint returns different responses for existing vs. new email
 | # | Finding | Severity | Flag |
 |---|---------|----------|------|
 | 1 | Sensitive Data Exposure via Profile API | High | MWR{779689a8c099b81a23c4ebe59177ba5e} |
-| 2 | IDOR on Assignment Memos | High | — |
-| 3 | SQL Injection in Login Endpoint | High | — |
-| 4 | Leaderboard Information Disclosure | Informational | — |
-| 5 | Stored XSS via Profile Fields | Medium | — |
-| 6 | User Enumeration via Registration | Medium | — |
+| 2 | IDOR on Assignment Memos | High | - |
+| 3 | SQL Injection in Login Endpoint | High | - |
+| 4 | Leaderboard Information Disclosure | Informational | - |
+| 5 | Stored XSS via Profile Fields | Medium | - |
+| 6 | User Enumeration via Registration | Medium | - |
 
 ---
 
@@ -248,7 +248,7 @@ The registration endpoint returns different responses for existing vs. new email
 
 ## Conclusion
 
-Six vulnerabilities were identified, including three High severity findings. The SQL injection vulnerability represents the most critical risk, enabling full database extraction. Combined with admin endpoints discovered via JavaScript analysis and the IDOR on assignment memos, multiple paths to confidentiality breach exist. The JWT implementation correctly rejected all tampering attempts — a positive finding. Immediate remediation of SQL injection and IDOR is strongly recommended.
+Six vulnerabilities were identified, including three High severity findings. The SQL injection vulnerability represents the most critical risk, enabling full database extraction. Combined with admin endpoints discovered via JavaScript analysis and the IDOR on assignment memos, multiple paths to confidentiality breach exist. The JWT implementation correctly rejected all tampering attempts which is a positive finding. Immediate remediation of SQL injection and IDOR is strongly recommended.
 
 ---
 
